@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>family-request create</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+ <!-- ルーム作成画面、1番上の見出し部分です -->
+ <header>
+  <div class="header-title">
+    <h1>ルーム作成</h1>
+  </div>
+</header> 
+
+<!-- ルーム名とルームIDを入力するフォームです。 -->
+<form>
+  <div class="form-group">
+    <label for="exampleFormControlInput1">ルーム名</label>
+    <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="例)山田家">
+  </div>
+  <div class="form-group">
+    <label for="exampleFormControlInput1">ルームID</label>
+    <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="例)1234-5678">
+  </div>
+</form>
+
+<!-- ルーム名と、ルームIDが入力出来たら確定するOKボタンです 中央に配置するために「text-center」を使いました -->
+<div class="text-center">
+  <button type="button" class="btn btn-primary">OK</button>
+</div> 
+
+</body>
+</html>

@@ -1,68 +1,72 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>family-request home</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-  integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
   <link rel="stylesheet" href="css/styles.css">
 </head>
-<!-- 基本的にすぐ下の行についてコメントします！ -->
-<!-- ホーム画面、1番上の見出し部分です -->
-<header>
-  <div class="home-title">
-    <h1>ホーム</h1>
-  </div>
-</header>  
+
 <body>
+  <!-- 基本的にすぐ下の行についてコメントします！ -->
+  <!-- ホーム画面、1番上の見出し部分です -->
+  <header>
+    <div class="header-title">
+      <h1>ホーム</h1>
+    </div>
+  </header>
   <!-- ホーム画面の縦に並んだ話題別の掲示板に飛ぶボタンです
-        縦並びに、少し間隔をあけて中央ぞろえで配置したかったけどできてません
-        くっついちゃったりしてます
-        色とかもやってません-->
+        縦並びにしたくてブロックレベルのボタンを採用してみましたが、文字が入りきってない-->
+  <div class="mx-auto1">
   <div class="container1">
     <div class="row">
-      <div class="col text-center">
-        <button type="button" class="btn btn-primary">みんなで気をつけよう</button>
-        <button type="button" class="btn btn-primary">気が向いたら買って</button>
-        <button type="button" class="btn btn-primary">これ今度食べたい</button>
-        <button type="button" class="btn btn-primary">チャンスがあれば行きたい</button>
-        <button type="button" class="btn btn-primary">よかったらふれて</button>
+      <div class="col-6">
+        <button type="button" class="btn btn-primary btn-block">みんなで気をつけよう</button>
+        <button type="button" class="btn btn-primary btn-block">気が向いたら買って</button>
+        <button type="button" class="btn btn-primary btn-block">これ今度食べたい</button>
+        <button type="button" class="btn btn-primary btn-block">チャンスがあれば行きたい</button>
+        <button type="button" class="btn btn-primary btn-block">よかったらふれて</button>
       </div>
     </div>
   </div>
-  
+  </div>
+
   <!-- ボトムバーメニューたちです
         まだ画像とか用意してないですし、ページ遷移とかもこれから調べます
-      一番下に持っていこうとしたら、マイページの文字が2行になっちゃったので放置中。
-    カラム３を使って４つに均等配置はできたかなーと思います-->    
-      <div class="container2">
-      <div class="row">
-        <div class="col-3">
-          <a href="ホームへ飛ぶよ">
+        一番下に持っていこうとしたら、マイページの文字が2行になっちゃったので放置中。
+       カラム３を使って４つに均等配置はできたかなーと思います-->
+  <div class="container2">
+    <div class="row">
+      <div class="col-3">
+        <a href="ホームへ飛ぶよ">
           <i class="ホームボタンの画像"></i>
-          <span class="mini-text">ホーム</span>    
-          </a>  
-        </div>
-        <div class="col-3">        
-          <a href="自分の投稿一覧へ飛ぶよ">
+          <span class="mini-text">ホーム</span>
+        </a>
+      </div>
+      <div class="col-3">
+        <a href="自分の投稿一覧へ飛ぶよ">
           <i class="自分の投稿一覧ボタンの画像"></i>
-          <span class="mini-text">マイページ</span>    
-          </a>          
-        </div>
-        <div class="col-3">        
-          <a href="メンバー一覧画面へ飛ぶよ">
+          <span class="mini-text">マイページ</span>
+        </a>
+      </div>
+      <div class="col-3">
+        <a href="メンバー一覧画面へ飛ぶよ">
           <i class="メンバー一覧ボタンの画像"></i>
-          <span class="mini-text">メンバー</span>    
-          </a>      
-        </div>    
-        <div class="col-3">               
-          <a href="設定へ飛ぶよ">
+          <span class="mini-text">メンバー</span>
+        </a>
+      </div>
+      <div class="col-3">
+        <a href="設定へ飛ぶよ">
           <i class="設定ボタンの画像"></i>
-          <span class="mini-text">設定</span>    
-          </a>          
-        </div> 
-    
-  
+          <span class="mini-text">設定</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
 </body>
+
 </html>
