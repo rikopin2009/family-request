@@ -1,0 +1,29 @@
+/* どのページでも一番上にくるタイトルの文字のスタイルです。 */
+h1 {
+  color: #474747;
+}
+/* どのページでも一番上にくるタイトルの背景色です。 */
+.header-title  {
+  background-color: #c7f9ff;
+  text-align: center;
+}
+
+
+/* ホーム画面のボトムメニューのためのなんかです…なんのために「col-3」と分けてるのかわかんなくなっちゃいました */
+.container2 {
+  /* position: fixed;で画面下に固定しようと思いましたが、これをやると文字が2行になったりしたので困ってます */
+  /* position: fixed; */
+  bottom: 0;
+  margin-bottom: 0px;  
+}
+
+/* ホーム画面のボトムメニューのためのスタイルです。 */
+.col-3 {
+  background-color: #c7f9ff;
+  width: 100%; 
+  z-index: 999;  
+  padding: 0px;    
+  display: table;  
+  text-align: center; 
+}
+
