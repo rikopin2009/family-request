@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>family-request create</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+  <!-- <link rel="stylesheet" href="css/styles.css"> -->
+  <style>
+     h1 {
+    color: #474747;
+  }
+    .header-title  {
+    background-color: #c7f9ff;
+    text-align: center;
+  }
+  
+  .imagePreview {
+    width: 100%;
+    height: 180px;
+    background-position: center center;
+    background-size: cover;
+    -webkit-box-shadow: 0 0 1px 1px rgba(0, 0, 0, .3);
+    display: inline-block;
+  }
+
+
+    </style>
+</head>
+
+<body>
+ <!-- ルーム作成画面、1番上の見出し部分です cd -->
+ <header>
+  <div class="header-title">
+    <h1>ユーザー情報登録</h1>
+  </div>
+</header> 
+
+<!-- プロフィール画像を取得するフォームです
+プロフィール画像を取得するのは大変そう過ぎるのですが、あらかじめ用意したテンプレ画像から
+好きなのを選べるみたいなのでもよいかもです 
+アップした画像のプレビューも見れるらしいですが不要なら消します！
+参考サイト：https://qiita.com/gsk3beta/items/46d44793827920282f75-->
+<form>
+    <div class="imagePreview"></div>
+<div class="input-group">
+    <label class="input-group-btn">
+        <span class="btn btn-primary">
+            画像を選択<input type="file" style="display:none" class="uploadFile">
+        </span>
+    </label>
+    <input type="text" class="form-control" readonly="">
+</div>
+<!-- ニックネームを取得するフォームです -->
+  <div class="form-group">
+    <label for="exampleFormControlInput1">ニックネーム入力</label>
+    <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="ニックネーム">
+  </div>
+  <!-- マイカラーを選択するフォームです ラジオボタン方式を考えていましたが、色の指定がめんどいのでとりあえずカラーコードを入力できるものを採用しました
+  その他の色が選べちゃいそうなのがやっかいですが…-->
+ 
+  <input type="color" name="example" list="data1" value="#fa8585">
+
+<datalist id="data1">
+<option value="#fa8585"></option>
+<option value="#fab485"></option>
+<option value="#fadd85"></option>
+<option value="#bffa85"></option>
+<option value="#85fabf"></option>
+<option value="#85bffa"></option>
+<option value="#bf85fa"></option>
+<option value="#fa85dd"></option>
+</datalist>
+</form>
+
+<!-- ニックネームとマイカラーが入力出来たら確定するOKボタンです 中央に配置するために「text-center」を使いました -->
+<div class="text-center">
+  <button type="button" class="btn btn-primary">OK</button>
+</div> 
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+
+</html>
