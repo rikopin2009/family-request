@@ -113,6 +113,8 @@
 
     // 登録
     const register = () => {
+      // 表示名も保存
+      localStorage.setItem('displayName', document.getElementById('exampleFormControlInput1').value);
       firebase.firestore().collection('users').doc(localStorage.getItem('uuid')).set({
         color: document.getElementById('color').value,
         'display-name': document.getElementById('exampleFormControlInput1').value,

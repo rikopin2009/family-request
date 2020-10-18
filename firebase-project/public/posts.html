@@ -160,16 +160,16 @@
                 const db = firebase.firestore();
                 // 変更を購読
                 const roomId = 'lKHRv9RB2EWMTFArWEHX';  // クエリパラメータから取る
-                db.collection('rooms').doc(roomId).collection('posts').orderBy('createdAt', 'desc').onSnapshot(collection => {
+                db.collection('rooms').doc(roomId).collection('posts').orderBy('createdAt').onSnapshot(collection => {
                     collection.docChanges().forEach(async change => {
                         if (change.type === 'added') {
                             let addData = change.doc.data();
-                            const userInfo = await db.collection('users').doc(this.uuid).get();
+                            const userInfo = await db.collection('users').doc(addData.poster.uuid).get();
                             addData.icon = userInfo.data().icon;
                             addData.color = userInfo.data().color;
-                            addData.active = change.doc.data().reaction.indexOf(this.uuid) != -1;
+                            addData.active = change.doc.data().reaction.indexOf(addData.poster.uuid) != -1;
                             addData.id = change.doc.id;
-                            this.cardData.push(addData);
+                            this.cardData.unshift(addData);
                         }
                     });
                 });
@@ -187,6 +187,7 @@
                     // リアクションクリック
                     console.log('はーい');
                     obj.active = !obj.active;
+                    
                 },
                 newPost: function () {
                     const newTitle = document.getElementById('new-post-title');
@@ -198,16 +199,16 @@
                     }
                     const roomId = 'lKHRv9RB2EWMTFArWEHX';
                     const db = firebase.firestore();
-                    const displayName = 'ゆうま';
                     db.collection('rooms').doc(roomId).collection('posts').doc().set({
                         body: newBody.value,
                         title: newTitle.value,
                         poster: {
-                            name: displayName,
+                            name: localStorage.getItem('displayName'),
                             uuid: this.uuid
                         },
                         reaction: [],
-                        target: []
+                        target: [],
+                        createdAt: firebase.firestore.FieldValue.serverTimestamp()
                     });
 
                     newTitle.value = '';
