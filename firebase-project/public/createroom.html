@@ -9,44 +9,92 @@
     integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
   <!-- <link rel="stylesheet" href="css/styles.css"> -->
   <style>
-  h1 {
-  color: #474747;
-}
-  .header-title  {
-  background-color: #c7f9ff;
-  text-align: center;
-}
+    h1 {
+      color: #474747;
+    }
+
+    .header-title {
+      background-color: #c7f9ff;
+      text-align: center;
+    }
   </style>
 </head>
 
 <body>
- <!-- ルーム作成画面、1番上の見出し部分です cd -->
- <header>
-  <div class="header-title">
-    <h1>ルーム作成</h1>
+  <!-- ルーム作成画面、1番上の見出し部分です cd -->
+  <header>
+    <div class="header-title">
+      <h1>ルーム作成</h1>
+    </div>
+  </header>
+  <div class="container">
+    <!-- ルーム名とルームIDを入力するフォームです。 -->
+    <form>
+      <div class="form-group">
+        <label for="exampleFormControlInput1">ルーム名</label>
+        <input type="text" class="form-control" id="room-name" placeholder="例)山田家">
+      </div>
+    </form>
   </div>
-</header> 
 
-<!-- ルーム名とルームIDを入力するフォームです。 -->
-<form>
-  <div class="form-group">
-    <label for="exampleFormControlInput1">ルーム名</label>
-    <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="例)山田家">
+  <!-- ルーム名と、ルームIDが入力出来たら確定するOKボタンです 中央に配置するために「text-center」を使いました -->
+  <div class="text-center">
+    <button type="button" class="btn btn-primary" onclick="makeRoom()">OK</button>
   </div>
-  <div class="form-group">
-    <label for="exampleFormControlInput1">ルームID</label>
-    <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="例)1234-5678">
-  </div>
-</form>
 
-<!-- ルーム名と、ルームIDが入力出来たら確定するOKボタンです 中央に配置するために「text-center」を使いました -->
-<div class="text-center">
-  <button type="button" class="btn btn-primary">OK</button>
-</div> 
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
 
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <!-- firebase関係 -->
+  <!-- update the version number as needed -->
+  <script src="/__/firebase/7.24.0/firebase-app.js"></script>
+  <!-- include only the Firebase features as you need -->
+  <script src="/__/firebase/7.24.0/firebase-auth.js"></script>
+  <script src="/__/firebase/7.24.0/firebase-firestore.js"></script>
+  <script src="/__/firebase/init.js"></script>
+  <script>
+    if (!localStorage.hasOwnProperty('uuid')) {
+      location.href = 'login.html';
+    }
+
+    if (location.search.indexOf('id') != -1) {
+      const roomId = location.search.replace('?', '').split('=')[1];
+      console.log(roomId);
+
+      if(localStorage.getItem('roomId') == roomId){
+        location.href = '/home.html';
+      }
+      
+      localStorage.setItem('roomId', roomId);
+
+      firebase.firestore().collection('rooms').doc(roomId).update({
+        member: firebase.firestore.FieldValue.arrayUnion(localStorage.getItem('uuid'))
+      })
+        .then(docRef => {
+          location.href = 'home.html'
+        });
+    }
+
+    const makeRoom = () => {
+      const roomName = document.getElementById('room-name').value;
+      firebase.firestore().collection('rooms').add({
+        roomName: roomName,
+        member: [localStorage.getItem('uuid')]
+      })
+        .then(docRef => {
+          localStorage.setItem('roomId', docRef.id);
+          console.log(docRef.id);
+          location.href = 'home.html'
+        });
+    }
+  </script>
 </body>
 
 </html>

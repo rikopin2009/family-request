@@ -23,7 +23,7 @@
       text-align: center;
     }
 
-    .btn-skyblue {
+    .btn-wrapper button {
       margin-top: 30px;
       margin-bottom: 10px;
       width: 60%;
@@ -63,12 +63,6 @@
       border-color: #5ab1ff;
     }
 
-    .btn-green {
-      margin-top: 10px;
-      margin-bottom: 10px;
-      width: 60%;
-    }
-
     /* 通常のボタン色 */
     .btn-green,
     .btn-green.disabled,
@@ -101,12 +95,6 @@
       color: #474747;
       background-color: #59ff59;
       border-color: #5dff5d;
-    }
-
-    .btn-yellow {
-      margin-top: 10px;
-      margin-bottom: 10px;
-      width: 60%;
     }
 
     /* 通常のボタン色 */
@@ -143,12 +131,6 @@
       border-color: #ffff5d;
     }
 
-    .btn-orange {
-      margin-top: 10px;
-      margin-bottom: 10px;
-      width: 60%;
-    }
-
     /* 通常のボタン色 */
     .btn-orange,
     .btn-orange.disabled,
@@ -181,12 +163,6 @@
       color: #474747;
       background-color: #ff9e5d;
       border-color: #ff9e5d;
-    }
-
-    .btn-pink {
-      margin-top: 10px;
-      margin-bottom: 10px;
-      width: 60%;
     }
 
     /* 通常のボタン色 */
@@ -232,6 +208,16 @@
       display: table;
       text-align: center;
     }
+
+    .footer-icon {
+      width: 3rem;
+      min-width: 44px;
+    }
+
+    .copy-msg p {
+      border: 1px solid lightseagreen;
+      border-radius: 10px;
+    }
   </style>
 </head>
 
@@ -241,17 +227,23 @@
     <!-- ホーム画面、1番上の見出し部分です -->
     <header>
       <div class="header-title">
-        <h1>ホーム</h1>
+        <h1 id="home-title"></h1>
       </div>
     </header>
     <!-- slackで送っていただいたものを使いました
     ボタンごと色を変えるため名前を一つ一つ変えました-->
-    <div class="text-center">
+    <div class="text-center mt-5 btn-wrapper">
       <button type="button" class="btn btn-skyblue">みんなで気をつけよう</button><br>
       <button type="button" class="btn btn-green" onclick="location.href='posts.html'">気が向いたら買って</button><br>
       <button type="button" class="btn btn-yellow">これ今度食べたい</button><br>
       <button type="button" class="btn btn-orange">チャンスがあれば行きたい</button><br>
       <button type="button" class="btn btn-pink">よかったらふれて</button>
+    </div>
+    <div class="mt-5 text-center">
+      <button type="button" class="btn btn-success" onclick="invite()">招待</button>
+      <div class="copy-msg d-none">
+        <p class="mx-auto mt-1">招待リンクをコピーしました！</p>
+      </div>
     </div>
 
 
@@ -259,30 +251,30 @@
           まだ画像とか用意してないですし、ページ遷移とかもこれから調べます
           一番下に持っていこうとしたら、マイページの文字が2行になっちゃったので放置中。
          カラム３を使って４つに均等配置はできたかなーと思います-->
-    <div class="container2">
+    <div class="container2 fixed-bottom">
       <div class="row">
         <div class="col-3">
-          <a href="ホームへ飛ぶよ">
-            <img class="ホームボタンの画像"></img>
-            <span class="mini-text">ホーム</span>
+          <a href="/home.html">
+            <img class="footer-icon" src="img/home.svg"></img>
+            <p class="mini-text">ホーム</p>
           </a>
         </div>
         <div class="col-3">
-          <a href="自分の投稿一覧へ飛ぶよ">
-            <img class="自分の投稿一覧ボタンの画像"></img>
-            <span class="mini-text">マイページ</span>
+          <a href="#">
+            <img class="footer-icon" src="img/user.svg"></img>
+            <p class="mini-text">マイページ</p>
           </a>
         </div>
         <div class="col-3">
-          <a href="メンバー一覧画面へ飛ぶよ">
-            <img class="メンバー一覧ボタンの画像"></img>
-            <span class="mini-text">メンバー</span>
+          <a href="#">
+            <img class="footer-icon" src="img/team.svg"></img>
+            <p class="mini-text">メンバー</p>
           </a>
         </div>
         <div class="col-3">
-          <a href="設定へ飛ぶよ">
-            <img class="設定ボタンの画像"></img>
-            <span class="mini-text">設定</span>
+          <a href="#">
+            <img class="footer-icon" src="img/setting.svg"></img>
+            <p class="mini-text">設定</p>
           </a>
         </div>
       </div>
@@ -301,6 +293,7 @@
     <script src="/__/firebase/7.24.0/firebase-app.js"></script>
     <!-- include only the Firebase features as you need -->
     <script src="/__/firebase/7.24.0/firebase-auth.js"></script>
+    <script src="/__/firebase/7.24.0/firebase-firestore.js"></script>
     <!-- initialize the SDK after all desired features are loaded -->
     <script src="/__/firebase/init.js"></script>
     <script>
@@ -316,6 +309,24 @@
           location.href = 'login.html';
         }
       });
+
+      const getRoomName = async () => {
+        // ルーム名の反映
+        const firebaseData = await firebase.firestore().collection('rooms').doc(localStorage.getItem('roomId')).get();
+        const roomName = firebaseData.data().roomName;
+        document.getElementById('home-title').textContent = roomName;
+      }
+      getRoomName();
+
+      const invite = () => {
+        const roomId = localStorage.getItem('roomId');
+        const inviteURL = `${location.protocol}//${location.hostname}/createroom.html?id=${roomId}`
+        console.log(inviteURL);
+        const copyMsg = document.querySelector('.copy-msg');
+        copyMsg.classList.remove('d-none');
+        document.querySelector('.copy-msg p').textContent = inviteURL;
+
+      }
     </script>
   </div>
 </body>

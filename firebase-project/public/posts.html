@@ -154,13 +154,14 @@
                 keyword: '',
                 // カードのデータ
                 cardData: [],
-                uuid: localStorage.getItem('uuid')
+                uuid: localStorage.getItem('uuid'),
+                roomId: localStorage.getItem('roomId')
             },
             beforeCreate: function () {
                 const db = firebase.firestore();
+                this.roomId = localStorage.getItem('roomId');
                 // 変更を購読
-                const roomId = 'lKHRv9RB2EWMTFArWEHX';  // クエリパラメータから取る
-                db.collection('rooms').doc(roomId).collection('posts').orderBy('createdAt').onSnapshot(collection => {
+                db.collection('rooms').doc(this.roomId).collection('posts').orderBy('createdAt').onSnapshot(collection => {
                     collection.docChanges().forEach(async change => {
                         if (change.type === 'added') {
                             let addData = change.doc.data();
@@ -170,6 +171,8 @@
                             addData.active = change.doc.data().reaction.indexOf(addData.poster.uuid) != -1;
                             addData.id = change.doc.id;
                             this.cardData.unshift(addData);
+                        }else if (change.type === 'removed'){
+                            document.getElementById(change.doc.id).parentElement.parentElement.remove();
                         }
                     });
                 });
@@ -178,16 +181,14 @@
                 // 叶えたボタン押したら消す
                 cameTrue: function (event) {
                     console.log('叶えたらしい');
-                    const roomId = 'lKHRv9RB2EWMTFArWEHX';
                     const db = firebase.firestore();
-                    db.collection('rooms').doc(roomId).collection('posts').doc(event.target.id).delete();
+                    db.collection('rooms').doc(this.roomId).collection('posts').doc(event.target.id).delete();
                     document.getElementById(event.target.id).parentElement.parentElement.remove();
                 },
                 react: function (obj) {
                     // リアクションクリック
                     console.log('はーい');
                     obj.active = !obj.active;
-                    
                 },
                 newPost: function () {
                     const newTitle = document.getElementById('new-post-title');
@@ -197,9 +198,8 @@
                         alert('何か入力してください');
                         return;
                     }
-                    const roomId = 'lKHRv9RB2EWMTFArWEHX';
                     const db = firebase.firestore();
-                    db.collection('rooms').doc(roomId).collection('posts').doc().set({
+                    db.collection('rooms').doc(this.roomId).collection('posts').doc().set({
                         body: newBody.value,
                         title: newTitle.value,
                         poster: {
@@ -223,7 +223,6 @@
 
                     for (let i in this.cardData) {
                         let cardDatum = this.cardData[i];
-                        console.log(cardDatum.title);
                         if (cardDatum['title'].indexOf(this.keyword) !== -1 ||
                             cardDatum['body'].indexOf(this.keyword) !== -1) {
                             cardData.push(cardDatum);
