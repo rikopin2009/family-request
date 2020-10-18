@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ログイン画面</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.5.0/firebase-ui-auth.css" />
+    <style>
+        /* どのページでも一番上にくるタイトルの文字のスタイルです。 */
+        h1 {
+            color: #474747;
+        }
+
+        /* どのページでも一番上にくるタイトルの背景色です。 */
+        .header-title {
+            background-color: #c7f9ff;
+            text-align: center;
+        }
+        
+        #firebaseui-auth-container{
+            margin-top: 10rem;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="header-title">
+            <h1>ログイン</h1>
+        </div>
+    </header>
+    <div id="firebaseui-auth-container"></div>
+    <div id="loader"></div>
+
+    <script src="https://www.gstatic.com/firebasejs/ui/4.5.0/firebase-ui-auth__ja.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+    <!-- update the version number as needed -->
+    <script src="/__/firebase/7.24.0/firebase-app.js"></script>
+    <!-- include only the Firebase features as you need -->
+    <script src="/__/firebase/7.24.0/firebase-auth.js"></script>
+    <!-- initialize the SDK after all desired features are loaded -->
+    <script src="/__/firebase/init.js"></script>
+
+    <script>
+        // Initialize the FirebaseUI Widget using Firebase.
+        var ui = new firebaseui.auth.AuthUI(firebase.auth());
+
+        var uiConfig = {
+            callbacks: {
+                signInSuccessWithAuthResult: function (authResult, redirectUrl) {
+                    // User successfully signed in.
+                    // Return type determines whether we continue the redirect automatically
+                    // or whether we leave that to developer to handle.
+                    return true;
+                },
+                uiShown: function () {
+                    // The widget is rendered.
+                    // Hide the loader.
+                    document.getElementById('loader').style.display = 'none';
+                }
+            },
+            // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
+            signInFlow: 'redirect',
+            signInSuccessUrl: '/home-copy.html',
+            signInOptions: [
+                // Leave the lines as is for the providers you want to offer your users.
+                firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+                // firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+                // firebase.auth.TwitterAuthProvider.PROVIDER_ID
+            ],
+            // 利用規約.
+            tosUrl: '<your-tos-url>',
+            // プライバシーポリシー.
+            privacyPolicyUrl: '<your-privacy-policy-url>'
+        };
+
+        ui.start('#firebaseui-auth-container', uiConfig);
+    </script>
+</body>
+
+</html>
