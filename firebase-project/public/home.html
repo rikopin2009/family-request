@@ -227,12 +227,13 @@
     <!-- ホーム画面、1番上の見出し部分です -->
     <header>
       <div class="header-title">
-        <h1 id="home-title"></h1>
+        <img class="py-1" id="logo" src="img/title-logo2.png" style="width: 90%;"></img>
       </div>
     </header>
+    <h2 class="text-center mt-3" id="home-title"></h2>
     <!-- slackで送っていただいたものを使いました
     ボタンごと色を変えるため名前を一つ一つ変えました-->
-    <div class="text-center mt-5 btn-wrapper">
+    <div class="text-center mt-3 btn-wrapper">
       <button type="button" class="btn btn-skyblue">みんなで気をつけよう</button><br>
       <button type="button" class="btn btn-green" onclick="location.href='posts.html'">気が向いたら買って</button><br>
       <button type="button" class="btn btn-yellow">これ今度食べたい</button><br>
@@ -242,7 +243,7 @@
     <div class="mt-5 text-center">
       <button type="button" class="btn btn-success" onclick="invite()">招待</button>
       <div class="copy-msg d-none">
-        <p class="mx-auto mt-1">招待リンクをコピーしました！</p>
+        <p class="mx-auto mt-1"></p>
       </div>
     </div>
 
@@ -323,9 +324,8 @@
         const inviteURL = `${location.protocol}//${location.hostname}/createroom.html?id=${roomId}`
         console.log(inviteURL);
         const copyMsg = document.querySelector('.copy-msg');
-        copyMsg.classList.remove('d-none');
+        copyMsg.classList.toggle('d-none');
         document.querySelector('.copy-msg p').textContent = inviteURL;
-
       }
     </script>
   </div>

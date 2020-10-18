@@ -85,7 +85,7 @@
 		c12.4,0,22.4,10,22.4,22.4L403.9,292.6L403.9,292.6z" />
                         </g>
                     </svg>
-
+                    <span id="reaction-user" v-for="user in cardDatum.reaction" v-text="user"></span>
                 </div>
                 <div class="card-footer text-right" style="background-color: white;">
                     <button class="btn btn-primary" v-on:click="cameTrue" v-bind:id="cardDatum.id">叶えた！</button>
@@ -145,7 +145,7 @@
     <script src="/__/firebase/init.js"></script>
 
     <script>
-        if(!localStorage.hasOwnProperty('uuid')){
+        if (!localStorage.hasOwnProperty('uuid')) {
             location.href = 'login.html';
         }
         var vm = new Vue({
@@ -168,10 +168,10 @@
                             const userInfo = await db.collection('users').doc(addData.poster.uuid).get();
                             addData.icon = userInfo.data().icon;
                             addData.color = userInfo.data().color;
-                            addData.active = change.doc.data().reaction.indexOf(addData.poster.uuid) != -1;
+                            addData.active = change.doc.data().reaction.indexOf(localStorage.getItem('displayName')) != -1;
                             addData.id = change.doc.id;
                             this.cardData.unshift(addData);
-                        }else if (change.type === 'removed'){
+                        } else if (change.type === 'removed') {
                             document.getElementById(change.doc.id).parentElement.parentElement.remove();
                         }
                     });
@@ -189,6 +189,15 @@
                     // リアクションクリック
                     console.log('はーい');
                     obj.active = !obj.active;
+                    if (obj.active) {
+                        firebase.firestore().collection('rooms').doc(this.roomId).collection('posts').doc(obj.id).update({
+                            reaction: firebase.firestore.FieldValue.arrayUnion(localStorage.getItem('displayName'))
+                        });
+                    } else {
+                        firebase.firestore().collection('rooms').doc(this.roomId).collection('posts').doc(obj.id).update({
+                            reaction: firebase.firestore.FieldValue.arrayRemove(localStorage.getItem('displayName'))
+                        });
+                    }
                 },
                 newPost: function () {
                     const newTitle = document.getElementById('new-post-title');
